@@ -40,6 +40,7 @@ export class AppGame extends LitElement {
       ...this.pixiAppOptions,
       width: clientWidth,
       height: clientHeight,
+      backgroundColor: 0xbbccee,
     };
     console.log(`AppGame › new Application( ${clientWidth}x${clientHeight}px)`);
     this.app = new Application(options);
@@ -51,28 +52,55 @@ export class AppGame extends LitElement {
   }
 }
 
+/**
+ * Creates an Application
+ * @param {*} options - standard PIXI.Application options
+ */
 class Application extends PIXI.Application {
   constructor(options) {
     super(options);
     console.log(`Application › options`, options);
 
-    this.addWebComponentsSprite(options);
+    this.addSprites(options);
   }
 
-  addWebComponentsSprite(options) {
-    this.loader
-      .add('circle', '/assets/apple-touch-icon.png')
-      .load((loader, resources) => {
-        const circle = new PIXI.Sprite(resources.circle.texture);
-        circle.x = options.width / 2;
-        circle.y = options.height / 2;
-        circle.anchor.x = 0.5;
-        circle.anchor.y = 0.5;
-        console.log(`AppGame › makeCircle()`, circle);
-        this.stage.addChild(circle);
-        this.ticker.add(() => {
-          circle.rotation += 0.01;
-        });
-      });
+  addSprites(options) {
+    const sprite1 = new RotatingSprite({
+      x: options.width / 2,
+      y: options.height / 2,
+      imageURL: '/assets/open-wc-logo-180x180.png',
+    });
+    this.stage.addChild(sprite1);
+    this.ticker.add(() => sprite1.rotate(0.01));
+
+    const sprite2 = this.stage.addChild(
+      new RotatingSprite({
+        x: options.width / 3,
+        y: options.height / 3,
+        imageURL: '/assets/open-wc-logo-180x180.png',
+      }),
+    );
+    this.stage.addChild(sprite2);
+    this.ticker.add(() => sprite2.rotate(-0.01));
+  }
+}
+
+/**
+ * Creates a rotating sprite
+ * @param {*} options
+ * @param {*} options.x
+ * @param {*} options.y
+ * @param {*} options.imageUrl
+ */
+export class RotatingSprite extends PIXI.Sprite {
+  constructor(options) {
+    super(PIXI.Texture.from(options.imageURL));
+    this.x = options.x;
+    this.y = options.y;
+    this.anchor.set(0.5);
+    //console.log(`WebComponentsSprite`, options);
+  }
+  rotate(delta) {
+    this.rotation += delta;
   }
 }
