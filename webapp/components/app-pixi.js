@@ -31,28 +31,28 @@ export class AppPixi extends PIXI.Application {
   }
 
   addButtons(options) {
-    const button1 = new TextButton(
-      (text) => {
+    const button1 = new TextButton({
+      onClick: (text) => {
         //console.log(text);
         this.gridVisible = !this.gridVisible;
         this.updateHexagonGrids();
       },
-      options.width - 50,
-      50,
-      'grid',
-    );
+      x: options.width - 50,
+      y: 50,
+      text: 'grid',
+    });
     this.stage.addChild(button1);
 
-    const button2 = new TextButton(
-      (text) => {
+    const button2 = new TextButton({
+      onClick: (text) => {
         //console.log(text);
         this.vertical = !this.vertical;
         this.updateHexagonGrids();
       },
-      options.width - 50,
-      100,
-      'v/h',
-    );
+      x: options.width - 50,
+      y: 100,
+      text: 'v/h',
+    });
     this.stage.addChild(button2);
   }
 

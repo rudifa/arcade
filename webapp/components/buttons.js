@@ -52,9 +52,9 @@ export let PushbuttonMixin = (superclass) =>
  */
 export let ClickMixin = (superclass) =>
   class extends superclass {
-    constructor(onClick, ...rest) {
-      //console.log("ClickMixin", ...arguments);
-      super(...rest);
+    constructor(options) {
+      //console.log("ClickMixin", options);
+      super(options);
       try {
         this.anchor.set(0.5);
       } catch (error) {}
@@ -64,12 +64,12 @@ export let ClickMixin = (superclass) =>
       // IN arcade ONLY THIS DOES NOT RESPOND
       this.on('click', () => {
         console.log('ClickMixin', 'click');
-        onClick(this.text);
+        options.callback(this.text);
       });
 
       this.on('pointerdown', () => {
         console.log('ClickMixin', 'pointerdown');
-        onClick(this.text);
+        options.onClick(this.text);
       });
     }
   };
@@ -78,13 +78,13 @@ export let ClickMixin = (superclass) =>
  * Displays the text
  */
 export class Text extends PIXI.Text {
-  constructor(x, y, text) {
-    super(text, {
+  constructor(options) {
+    super(options.text, {
       font: 'bold 32px Helvetica',
       fill: '#0077ff',
     });
-    this.x = x;
-    this.y = y;
+    this.x = options.x;
+    this.y = options.y;
   }
 }
 
@@ -123,9 +123,9 @@ export class Circle3 extends PIXI.Graphics {
  * @param {*} text - button text + identifier in callback
  */
 export class TextButton extends ClickMixin(Text) {
-  constructor(onClick, x, y, text) {
-    console.log('TextButton', ...arguments);
-    super(...arguments);
+  constructor(options) {
+    console.log('TextButton', options);
+    super(options);
   }
 }
 
