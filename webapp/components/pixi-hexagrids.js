@@ -238,34 +238,34 @@ export class Circle extends PIXI.Graphics {
 /**
  * Creates a grid of HexagonCR
  *
- * @param {*} nx - number of hexagons in x-direction
- * @param {*} ny - number of hexagons in y-direction
- * @param {*} side  - hexagon side , pixels
+ * @param {*} options
+ * @param {*} options.cols - number of hexagons in x-direction
+ * @param {*} options.rows - number of hexagons in y-direction
+ * @param {*} options.side  - hexagon side , pixels
  * @param {*} vertical - if true: vertex on top else: side on top
  * @param {*} fillcolor
  * @param {*} strokecolor
  */
-export class HexagonCRGrid extends Container {
-  constructor(nx, ny, side, vertical, fillcolor, strokecolor) {
+export class HexagonGrid extends Container {
+  constructor(options, fillcolor, strokecolor) {
     super();
-    console.log(
-      'HexagonCRGrid',
-      nx,
-      ny,
-      side,
-      vertical,
-      fillcolor,
-      strokecolor,
-    );
+    console.log('HexagonGrid', options);
 
-    this.addHexagonCRs(nx, ny, side, vertical, fillcolor, strokecolor);
+    this.addHexagonCRs(options);
   }
 
-  addHexagonCRs(nx, ny, side, vertical, fillcolor, strokecolor) {
-    for (let i = 0; i < nx; i++) {
-      for (let j = 0; j < ny; j++) {
+  addHexagonCRs(options) {
+    for (let i = 0; i < options.cols; i++) {
+      for (let j = 0; j < options.rows; j++) {
         this.addChild(
-          new HexagonCR(i, j, side, vertical, fillcolor, strokecolor),
+          new HexagonCR(
+            i,
+            j,
+            options.side,
+            options.vertical,
+            options.fillcolor,
+            options.strokecolor,
+          ),
         );
       }
     }

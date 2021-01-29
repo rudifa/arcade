@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 
 import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
-import { HexagonCRGrid as HexagonGrid } from './pixi-hexagrids.js';
+import { HexagonGrid } from './pixi-hexagrids.js';
 
 /**
  * Creates an Application
@@ -59,8 +59,22 @@ export class AppPixi extends PIXI.Application {
   addHexagonGrids(hexagonSide) {
     this.gridVisible = true;
     this.vertical = true;
-    this.gridVert = new HexagonGrid(20, 20, hexagonSide, true, null, 0xff00ff);
-    this.gridHor = new HexagonGrid(22, 20, hexagonSide, false, null, 0xff00ff);
+    this.gridVert = new HexagonGrid({
+      cols: 20,
+      rows: 20,
+      side: hexagonSide,
+      vertical: true,
+      fillcolor: null,
+      strokecolor: 0xff00ff,
+    });
+    this.gridHor = new HexagonGrid({
+      cols: 22,
+      rows: 20,
+      side: hexagonSide,
+      vertical: false,
+      fillcolor: null,
+      strokecolor: 0xffff00,
+    });
     this.updateHexagonGrids();
   }
 
