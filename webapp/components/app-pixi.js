@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 import { RotatingSprite } from './sprites.js';
+import { CircleButton, TextButton } from './buttons.js';
 
 /**
  * Creates an Application
@@ -12,6 +13,7 @@ export class AppPixi extends PIXI.Application {
     console.log(`AppPixi › options`, options);
 
     this.addSprites(options);
+    this.addButtons(options);
   }
 
   addSprites(options) {
@@ -32,5 +34,29 @@ export class AppPixi extends PIXI.Application {
     );
     this.stage.addChild(sprite2);
     this.ticker.add(() => sprite2.rotate(-0.01));
+  }
+
+  addButtons(options) {
+    const button1 = new TextButton(
+      () => {
+        console.log('test');
+      },
+      800,
+      100,
+      'test',
+    );
+    this.stage.addChild(button1);
+
+    this.stage.addChild(
+      new CircleButton(
+        () => {
+          console.log('clicked circle');
+        },
+        800,
+        200,
+        30,
+        0xff7700,
+      ),
+    );
   }
 }
