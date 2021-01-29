@@ -61,14 +61,15 @@ export let ClickMixin = (superclass) =>
       this.interactive = true;
       this.buttonMode = true;
 
+      // IN arcade ONLY THIS DOES NOT RESPOND
       this.on('click', () => {
         console.log('ClickMixin', 'click');
         onClick(this.text);
       });
 
-      this.on('pointerup', () => {
-        console.log('ClickMixin', 'pointerup');
-        //onClick(this.text);
+      this.on('pointerdown', () => {
+        console.log('ClickMixin', 'pointerdown');
+        onClick(this.text);
       });
     }
   };
