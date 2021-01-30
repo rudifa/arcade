@@ -242,21 +242,41 @@ export class Circle extends PIXI.Graphics {
  * @param {*} options.cols - number of hexagons in x-direction
  * @param {*} options.rows - number of hexagons in y-direction
  * @param {*} options.side  - hexagon side , pixels
- * @param {*} vertical - if true: vertex on top else: side on top
- * @param {*} fillcolor
- * @param {*} strokecolor
+ * @param {*} options.vertical - if true: vertex on top else: side on top
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
+ * @param {*} options.width - if defined, overrides options.cols
+ * @param {*} options.height - if defined, overrides options.rows
+
  */
 export class HexagonGrid extends Container {
   constructor(options, fillcolor, strokecolor) {
     super();
     console.log('HexagonGrid', options);
 
+    this.setRowsCols(options);
     this.addHexagonCRs(options);
   }
 
+  setRowsCols(options) {
+    //console.log('HexagonGrid.setRowsCols', options);
+    const sample = new HexagonCR(0, 0, options.side, options.vertical);
+    const [step_x, step_y] = sample.gridSteps();
+    if (options.width === undefined) {
+      this.cols = options.cols;
+    } else {
+      this.cols = 1 + Math.ceil(options.width / step_x);
+    }
+    if (options.height === undefined) {
+      this.rows = options.rows;
+    } else {
+      this.rows = 1 + Math.ceil(options.height / step_y);
+    }
+  }
+
   addHexagonCRs(options) {
-    for (let i = 0; i < options.cols; i++) {
-      for (let j = 0; j < options.rows; j++) {
+    for (let i = 0; i < this.cols; i++) {
+      for (let j = 0; j < this.rows; j++) {
         this.addChild(
           new HexagonCR(
             i,

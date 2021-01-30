@@ -164,6 +164,14 @@ export let HexaCR2XYMixin = (superclass) =>
       //console.log("horizontalHexPosition", p, newP, col, row);
       return p;
     }
+
+    gridSteps() {
+      if (this.vertical) {
+        return [this.step_y, this.step_x];
+      } else {
+        return [this.step_x, this.step_y];
+      }
+    }
   };
 
 /**

@@ -17,7 +17,7 @@ export class AppPixi extends PIXI.Application {
     this.addSprites(options);
 
     const hexagonSide = 30;
-    this.addHexagonGrids(hexagonSide);
+    this.addHexagonGrids(hexagonSide, options);
 
     this.addButtons(options);
   }
@@ -58,20 +58,24 @@ export class AppPixi extends PIXI.Application {
     this.stage.addChild(button2);
   }
 
-  addHexagonGrids(hexagonSide) {
+  addHexagonGrids(hexagonSide, options) {
     this.gridVisible = true;
     this.vertical = true;
     this.gridVert = new HexagonGrid({
-      cols: 20,
-      rows: 20,
+      //   cols: 20,
+      //   rows: 20,
+      width: options.width,
+      height: options.height,
       side: hexagonSide,
       vertical: true,
       fillcolor: null,
       strokecolor: 0xff00ff,
     });
     this.gridHor = new HexagonGrid({
-      cols: 22,
-      rows: 20,
+      //   cols: 22,
+      //   rows: 20,
+      width: options.width,
+      height: options.height,
       side: hexagonSide,
       vertical: false,
       fillcolor: null,
