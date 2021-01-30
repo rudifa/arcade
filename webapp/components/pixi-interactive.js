@@ -9,13 +9,20 @@ import { Hex, OffsetCoord, Point } from './redblobgames-lib-module.js';
  */
 export let HexaKeyboardMixin = (superclass) =>
   class extends superclass {
-    constructor(col, row, side, vertical, ...rest) {
-      console.log('HexaKeyboardMixin', col, row, side, vertical, ...rest);
-      super(col, row, side, vertical, ...rest);
+    constructor(options) {
+      console.log('HexaKeyboardMixin', options);
+      super(
+        options.col,
+        options.row,
+        options.side,
+        options.vertical,
+        options.strokecolor,
+        options.fillcolor,
+      );
 
-      this.vertical = vertical;
-      this.col = col;
-      this.row = row;
+      this.vertical = options.vertical;
+      this.col = options.col;
+      this.row = options.row;
 
       this.enablekeyboardEvents();
     }

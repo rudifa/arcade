@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
 import { HexagonGrid } from './pixi-hexagrids.js';
+import { HexagonCRKeyboard } from './pixi-shapes.js';
 
 /**
  * Creates an Application
@@ -14,10 +15,11 @@ export class AppPixi extends PIXI.Application {
     console.log(`AppPixi › options`, options);
 
     this.addSprites(options);
-    this.addButtons(options);
 
     const hexagonSide = 30;
     this.addHexagonGrids(hexagonSide);
+
+    this.addButtons(options);
   }
 
   addSprites(options) {
@@ -75,6 +77,24 @@ export class AppPixi extends PIXI.Application {
       fillcolor: null,
       strokecolor: 0xffff00,
     });
+
+    this.verticalMovableHexagon = new HexagonCRKeyboard({
+      col: 7,
+      row: 7,
+      side: hexagonSide,
+      vertical: true,
+      strokecolor: 0xaa0000,
+      fillcolor: null,
+    });
+    this.horizontalMovableHexagon = new HexagonCRKeyboard({
+      col: 7,
+      row: 7,
+      side: hexagonSide,
+      vertical: false,
+      strokecolor: 0xaa0000,
+      fillcolor: null,
+    });
+
     this.updateHexagonGrids();
   }
 
@@ -90,6 +110,13 @@ export class AppPixi extends PIXI.Application {
     } else {
       this.stage.removeChild(this.gridVert);
       this.stage.removeChild(this.gridHor);
+    }
+    if (this.vertical) {
+      this.stage.removeChild(this.horizontalMovableHexagon);
+      this.stage.addChild(this.verticalMovableHexagon);
+    } else {
+      this.stage.removeChild(this.verticalMovableHexagon);
+      this.stage.addChild(this.horizontalMovableHexagon);
     }
   }
 }

@@ -182,8 +182,8 @@ export class HexagonCR extends HexaCR2XYMixin(Hexagon) {
 export class HexagonCRKeyboard extends HexaKeyboardMixin(
   HexaCR2XYMixin(Hexagon),
 ) {
-  constructor(col, row, side, vertical, fillcolor, strokecolor) {
-    //console.log('HexagonCRKeyboard', ...arguments);
-    super(...arguments);
+  constructor(options) {
+    console.log('HexagonCRKeyboard', options);
+    super(options);
   }
 }
