@@ -11,7 +11,7 @@ import {
 
 import { Circle4, CircleButton, TextButton } from './pixi-buttons.js';
 
-import { HexagonCRGrid } from './pixi-hexagrids.js';
+import { HexagonGrid } from './pixi-hexagrids.js';
 
 export class PixiApplication extends Application {
   constructor(options) {
@@ -101,25 +101,25 @@ export class PixiApplication extends Application {
     );
   }
 
-  addHexagons(side, vertical) {
-    this.stage.addChild(new Hexagon(0, 0, side, vertical, 0xffaa66, null));
-    // this.stage.addChild(new Hexagon(300, 50, side, vertical, 0xffaa66, null));
+  //   addHexagons(side, vertical) {
+  //     this.stage.addChild(new Hexagon(0, 0, side, vertical, 0xffaa66, null));
+  //     // this.stage.addChild(new Hexagon(300, 50, side, vertical, 0xffaa66, null));
 
-    this.stage.addChild(new HexagonCR(3, 1, side, vertical, 0x00aa66, null));
-    this.stage.addChild(new HexagonCR(3, 2, side, vertical, 0x00aa66, null));
-    this.stage.addChild(new HexagonCR(3, 3, side, vertical, 0x00aa66, null));
-    this.stage.addChild(new HexagonCR(3, 4, side, vertical, 0x00aa66, null));
-    this.stage.addChild(new HexagonCR(4, 4, side, vertical, 0x00aa66, null));
-    this.stage.addChild(new HexagonCR(5, 4, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(3, 1, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(3, 2, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(3, 3, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(3, 4, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(4, 4, side, vertical, 0x00aa66, null));
+  //     this.stage.addChild(new HexagonCR(5, 4, side, vertical, 0x00aa66, null));
 
-    this.stage.addChild(
-      new HexagonCRKeyboard(7, 7, side, vertical, 0xaabbcc, null),
-    );
-  }
+  //     this.stage.addChild(
+  //       new HexagonCRKeyboard(7, 7, side, vertical, 0xaabbcc, null),
+  //     );
+  //   }
 
   addHexagonCRGrid(hexagonSide, vertical) {
     this.stage.addChild(
-      new HexagonCRGrid(20, 20, hexagonSide, vertical, null, 0xff00ff),
+      new HexagonGrid(20, 20, hexagonSide, vertical, null, 0xff00ff),
     );
   }
 }
