@@ -64,7 +64,7 @@ export let ClickMixin = (superclass) =>
       // IN arcade ONLY THIS DOES NOT RESPOND
       this.on('click', () => {
         console.log('ClickMixin', 'click');
-        options.callback(this.text);
+        options.onClick(this.text);
       });
 
       this.on('pointerdown', () => {

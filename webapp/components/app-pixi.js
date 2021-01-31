@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 
 import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
-import { HexagonGrid } from './pixi-hexagrids.js';
+import { HexagonGrid, HexagonGroup } from './pixi-hexagrids.js';
 
 import { HexagonCRKeyboard } from './pixi-shapes.js';
 
@@ -19,8 +19,11 @@ export class AppPixi extends PIXI.Application {
 
     const hexagonSide = 30;
     this.addHexagonGrids(hexagonSide, options);
-
+    this.addMovableHexagons(hexagonSide);
+    this.addHexagonGroups(hexagonSide);
     this.addButtons(options);
+
+    this.updateHexagonCollections();
   }
 
   addSprites(options) {
@@ -38,7 +41,7 @@ export class AppPixi extends PIXI.Application {
       onClick: (text) => {
         //console.log(text);
         this.gridVisible = !this.gridVisible;
-        this.updateHexagonGrids();
+        this.updateHexagonCollections();
       },
       x: options.width - 50,
       y: 50,
@@ -50,7 +53,7 @@ export class AppPixi extends PIXI.Application {
       onClick: (text) => {
         //console.log(text);
         this.vertical = !this.vertical;
-        this.updateHexagonGrids();
+        this.updateHexagonCollections();
       },
       x: options.width - 50,
       y: 100,
@@ -82,7 +85,9 @@ export class AppPixi extends PIXI.Application {
       fillcolor: null,
       strokecolor: 0xffff00,
     });
+  }
 
+  addMovableHexagons(hexagonSide) {
     this.verticalMovableHexagon = new HexagonCRKeyboard({
       col: 7,
       row: 7,
@@ -99,11 +104,22 @@ export class AppPixi extends PIXI.Application {
       strokecolor: 0xaa0000,
       fillcolor: null,
     });
-
-    this.updateHexagonGrids();
   }
 
-  updateHexagonGrids() {
+  addHexagonGroups(hexagonSide) {
+    this.hexagonGroupVertical = new HexagonGroup({
+      side: hexagonSide,
+      vertical: true,
+      fillcolor: 0x00ff00,
+    });
+    this.hexagonGroupHorizontal = new HexagonGroup({
+      side: hexagonSide,
+      vertical: false,
+      fillcolor: 0x00ff00,
+    });
+  }
+
+  updateHexagonCollections() {
     if (this.gridVisible) {
       if (this.vertical) {
         this.stage.removeChild(this.gridHor);
@@ -115,6 +131,13 @@ export class AppPixi extends PIXI.Application {
     } else {
       this.stage.removeChild(this.gridVert);
       this.stage.removeChild(this.gridHor);
+    }
+    if (this.vertical) {
+      this.stage.removeChild(this.hexagonGroupHorizontal);
+      this.stage.addChild(this.hexagonGroupVertical);
+    } else {
+      this.stage.removeChild(this.hexagonGroupVertical);
+      this.stage.addChild(this.hexagonGroupHorizontal);
     }
     if (this.vertical) {
       this.stage.removeChild(this.horizontalMovableHexagon);

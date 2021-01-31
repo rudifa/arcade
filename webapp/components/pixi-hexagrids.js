@@ -17,7 +17,6 @@ import { Circle, Hexagon, HexagonCR, Square } from './pixi-shapes.js';
  * @param {*} options.strokecolor
  * @param {*} options.width - if defined, overrides options.cols
  * @param {*} options.height - if defined, overrides options.rows
-
  */
 export class HexagonGrid extends Container {
   constructor(options, fillcolor, strokecolor) {
@@ -59,6 +58,85 @@ export class HexagonGrid extends Container {
         );
       }
     }
+  }
+}
+
+/**
+ * Creates a fixed number of HexagonCR instances,
+ * representing walls and obstacles
+ * TODO: configure from a character matrix
+ *
+ * @param {*} options
+ * @param {*} options.side  - hexagon side , pixels
+ * @param {*} options.vertical - if true: vertex on top else: side on top
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
+ */
+export class HexagonGroup extends Container {
+  constructor(options) {
+    super();
+    console.log('HexagonGroup', options);
+
+    this.addChild(
+      new HexagonCR(
+        3,
+        1,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
+    this.addChild(
+      new HexagonCR(
+        3,
+        2,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
+    this.addChild(
+      new HexagonCR(
+        3,
+        3,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
+    this.addChild(
+      new HexagonCR(
+        3,
+        4,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
+    this.addChild(
+      new HexagonCR(
+        4,
+        4,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
+    this.addChild(
+      new HexagonCR(
+        5,
+        4,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      ),
+    );
   }
 }
 

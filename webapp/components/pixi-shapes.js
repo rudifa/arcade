@@ -179,7 +179,7 @@ export let HexaCR2XYMixin = (superclass) =>
  */
 export class HexagonCR extends HexaCR2XYMixin(Hexagon) {
   constructor(col, row, side, vertical, fillcolor, strokecolor) {
-    //console.log('HexagonCR', ...arguments);
+    console.log('HexagonCR', ...arguments);
     super(...arguments);
   }
 }
