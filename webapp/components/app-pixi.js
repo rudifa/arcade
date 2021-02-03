@@ -2,9 +2,13 @@ import * as PIXI from 'pixi.js';
 
 import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
-import { HexagonGrid, HexagonGroup } from './pixi-hexagrids.js';
+import {
+  HexagonGrid,
+  HexagonGroupFixed,
+  HexagonGroupFromLayout,
+} from './pixi-hexagrids.js';
 
-import { HexagonCRKeyboard } from './pixi-shapes.js';
+import { HexagonCRKeyboard } from './shapes.js';
 
 /**
  * Creates an Application
@@ -107,15 +111,17 @@ export class AppPixi extends PIXI.Application {
   }
 
   addHexagonGroups(hexagonSide) {
-    this.hexagonGroupVertical = new HexagonGroup({
+    // this.hexagonGroupVertical = new HexagonGroupFixed({
+    this.hexagonGroupVertical = new HexagonGroupFromLayout({
       side: hexagonSide,
       vertical: true,
-      fillcolor: 0x00ff00,
+      fillcolor: 0x009900,
     });
-    this.hexagonGroupHorizontal = new HexagonGroup({
+    // this.hexagonGroupHorizontal = new HexagonGroupFixed({
+    this.hexagonGroupHorizontal = new HexagonGroupFromLayout({
       side: hexagonSide,
       vertical: false,
-      fillcolor: 0x00ff00,
+      fillcolor: 0x0000ff,
     });
   }
 

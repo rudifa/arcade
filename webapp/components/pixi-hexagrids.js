@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { Circle, Hexagon, HexagonCR, Square } from './pixi-shapes.js';
+import { Circle, Hexagon, HexagonCR, Square } from './shapes.js';
 
 // ---------
 // hexagrids
@@ -72,7 +72,7 @@ export class HexagonGrid extends Container {
  * @param {*} options.fillcolor
  * @param {*} options.strokecolor
  */
-export class HexagonGroup extends Container {
+export class HexagonGroupFixed extends Container {
   constructor(options) {
     super();
     console.log('HexagonGroup', options);
@@ -137,6 +137,113 @@ export class HexagonGroup extends Container {
         options.strokecolor,
       ),
     );
+  }
+}
+
+// layouts for class HexagonGroupFromLayout
+
+const LAYOUT01 = `x·P●x··x
+                  xxxxxxxx`;
+
+const LAYOUT02 = `xxxxxxxxxxxxxxx
+                  xx·x●x····xx··x
+                  x··x·P··x●x·xxx
+                  xxMxxxx·xxx··xx
+                  xx·x●x····xx··x
+                  xx●···Fx··D···x
+                  xxxxxxxxxxxxxxx`;
+
+const LAYOUT03 = `xxxxxxxxxxxxxxxxxxxxxxxxx
+xx·x●x····xx··xxx·x●x···x
+x··x·P··x●x·xxxxxMxxxx·xx
+xxMxxxx·xxx··xxxxMxxxx·xx
+xx·x●x····xx··xxxMxxxx·xx
+xx●···Fx··D·············x
+xx·xxxxxxxxxxxxxxMxxxx·xx
+xx·x●x····xx··xxx·x●x···x
+x··x·P··x●x·xxxxxMxxxx·xx
+xxMx·xx·xxx··xxxxMxxxx·xx
+xx·x●x····xx············x
+xx●···Fx··D···xxxMxxxx·xx
+xxxxxxxxxxxxxxxxxxxxxxxxx`;
+
+// helper funcs for class HexagonGroupFromLayout
+
+/**
+ * split the string on whitespace into lines then split into characters
+ * @param {String} string
+ * @returns {[[String]]}
+ */
+function splitsplit(string) {
+  return string.split(/\s+/).map((line) => {
+    return line.split('');
+  });
+}
+
+class GridItem {
+  constructor(col, row, name) {
+    this.col = col;
+    this.row = row;
+    this.name = name;
+  }
+}
+
+/**
+ * convert a layout (matrix of characters) to array of GridItem
+ * @param {[[String]]} charMatrix
+ * @returns {[GridItem]}
+ */
+function gridItemsFromLayout(layout) {
+  const charMatrix = splitsplit(LAYOUT03);
+  // console.log('gridItemsFrom matrix', charMatrix);
+  const rows = charMatrix.length;
+  const cols = charMatrix[0].length;
+  //console.log('charsToColRow', rows, cols, charMatrix, charMatrix[0][0]);
+  let gridItems = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      //console.log('charsToColRow', charMatrix[row][col]);
+      if (charMatrix[row][col] === 'x') {
+        gridItems.push(new GridItem(col, row, 'x'));
+      } else {
+        // ignore for now
+      }
+    }
+  }
+  return gridItems;
+}
+/**
+ * Creates a group HexagonCR instances,
+ * representing walls and obstacles,
+ * from a text matrix LAYOUT (fixed for now)
+ *
+ * @param {*} options.side  - hexagon side , pixels
+ * @param {*} options.vertical - if true: vertex on top else: side on top
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
+ */
+export class HexagonGroupFromLayout extends Container {
+  constructor(options) {
+    super();
+    console.log('HexagonGroupFromLayout', options);
+
+    this.addHexagons(options);
+  }
+
+  addHexagons(options) {
+    const gridItems = gridItemsFromLayout(LAYOUT02);
+    //console.log('addHexagons gridItems', gridItems);
+    for (const item of gridItems) {
+      let hexagon = new HexagonCR(
+        item.col,
+        item.row,
+        options.side,
+        options.vertical,
+        options.fillcolor,
+        options.strokecolor,
+      );
+      this.addChild(hexagon);
+    }
   }
 }
 

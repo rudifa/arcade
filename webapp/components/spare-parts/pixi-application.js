@@ -7,7 +7,7 @@ import {
   HexagonCR,
   HexagonCRKeyboard,
   Square,
-} from './pixi-shapes.js';
+} from './shapes.js';
 
 import { Circle4, CircleButton, TextButton } from './pixi-buttons.js';
 
