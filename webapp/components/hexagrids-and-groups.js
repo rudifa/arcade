@@ -8,7 +8,6 @@ import { Circle, Hexagon, HexagonCR, Square } from './shapes.js';
 /**
  * Creates a grid of HexagonCR
  *
- * @param {*} options
  * @param {*} options.cols - number of hexagons in x-direction
  * @param {*} options.rows - number of hexagons in y-direction
  * @param {*} options.side  - hexagon side , pixels
@@ -19,7 +18,7 @@ import { Circle, Hexagon, HexagonCR, Square } from './shapes.js';
  * @param {*} options.height - if defined, overrides options.rows
  */
 export class HexagonGrid extends Container {
-  constructor(options, fillcolor, strokecolor) {
+  constructor(options) {
     super();
     console.log('HexagonGrid', options);
 
@@ -29,7 +28,12 @@ export class HexagonGrid extends Container {
 
   setRowsCols(options) {
     //console.log('HexagonGrid.setRowsCols', options);
-    const sample = new HexagonCR(0, 0, options.side, options.vertical);
+    const sample = new HexagonCR({
+      col: 0,
+      row: 0,
+      side: options.side,
+      vertical: options.vertical,
+    });
     const [step_x, step_y] = sample.gridSteps();
     if (options.width === undefined) {
       this.cols = options.cols;
@@ -47,14 +51,14 @@ export class HexagonGrid extends Container {
     for (let i = 0; i < this.cols; i++) {
       for (let j = 0; j < this.rows; j++) {
         this.addChild(
-          new HexagonCR(
-            i,
-            j,
-            options.side,
-            options.vertical,
-            options.fillcolor,
-            options.strokecolor,
-          ),
+          new HexagonCR({
+            col: i,
+            row: j,
+            side: options.side,
+            vertical: options.vertical,
+            fillcolor: options.fillcolor,
+            strokecolor: options.strokecolor,
+          }),
         );
       }
     }
@@ -72,73 +76,73 @@ export class HexagonGrid extends Container {
  * @param {*} options.fillcolor
  * @param {*} options.strokecolor
  */
-export class HexagonGroupFixed extends Container {
-  constructor(options) {
-    super();
-    console.log('HexagonGroup', options);
+// export class HexagonGroupFixed extends Container {
+//   constructor(options) {
+//     super();
+//     console.log('HexagonGroup', options);
 
-    this.addChild(
-      new HexagonCR(
-        3,
-        1,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-    this.addChild(
-      new HexagonCR(
-        3,
-        2,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-    this.addChild(
-      new HexagonCR(
-        3,
-        3,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-    this.addChild(
-      new HexagonCR(
-        3,
-        4,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-    this.addChild(
-      new HexagonCR(
-        4,
-        4,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-    this.addChild(
-      new HexagonCR(
-        5,
-        4,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      ),
-    );
-  }
-}
+//     this.addChild(
+//       new HexagonCR(
+//         3,
+//         1,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//     this.addChild(
+//       new HexagonCR(
+//         3,
+//         2,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//     this.addChild(
+//       new HexagonCR(
+//         3,
+//         3,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//     this.addChild(
+//       new HexagonCR(
+//         3,
+//         4,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//     this.addChild(
+//       new HexagonCR(
+//         4,
+//         4,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//     this.addChild(
+//       new HexagonCR(
+//         5,
+//         4,
+//         options.side,
+//         options.vertical,
+//         options.fillcolor,
+//         options.strokecolor,
+//       ),
+//     );
+//   }
+// }
 
 // layouts for class HexagonGroupFromLayout
 
@@ -194,7 +198,7 @@ class GridItem {
  * @returns {[GridItem]}
  */
 function gridItemsFromLayout(layout) {
-  const charMatrix = splitsplit(LAYOUT03);
+  const charMatrix = splitsplit(LAYOUT02);
   // console.log('gridItemsFrom matrix', charMatrix);
   const rows = charMatrix.length;
   const cols = charMatrix[0].length;
@@ -234,14 +238,14 @@ export class HexagonGroupFromLayout extends Container {
     const gridItems = gridItemsFromLayout(LAYOUT02);
     //console.log('addHexagons gridItems', gridItems);
     for (const item of gridItems) {
-      let hexagon = new HexagonCR(
-        item.col,
-        item.row,
-        options.side,
-        options.vertical,
-        options.fillcolor,
-        options.strokecolor,
-      );
+      let hexagon = new HexagonCR({
+        col: item.col,
+        row: item.row,
+        side: options.side,
+        vertical: options.vertical,
+        fillcolor: options.fillcolor,
+        strokecolor: options.strokecolor,
+      });
       this.addChild(hexagon);
     }
   }

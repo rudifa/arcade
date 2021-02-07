@@ -1,63 +1,18 @@
 import * as PIXI from 'pixi.js';
-
-/**
- * Provides pushbutton behavior for subclasses
- * On buttonUp calls fncButtonUp
- */
-export let PushbuttonMixin = (superclass) =>
-  class extends superclass {
-    constructor(onClick, ...rest) {
-      //console.log("PushbuttonMixin", ...arguments);
-      super(...rest);
-      this.onClick = onClick;
-      try {
-        this.anchor.set(0.5);
-      } catch (error) {}
-      this.interactive = true;
-      this.buttonMode = true;
-
-      this.on('click', () => {
-        console.log('PushbuttonMixin', 'click');
-        onClick(this.text);
-      });
-
-      this.on('pointerdown', () => {
-        console.log('PushbuttonMixin', 'pointerdown');
-        //onClick(this.text);
-      });
-
-      this.on('pointerup', () => {
-        console.log('PushbuttonMixin', 'pointerup');
-        //onClick(this.text);
-      });
-
-      this.on('pointerover', () => {
-        console.log('PushbuttonMixin', 'pointerover');
-        //onClick(this.text);
-      });
-
-      this.on('pointerout', () => {
-        console.log('PushbuttonMixin', 'pointerout');
-        //onClick(this.text);
-      });
-    }
-  };
+import { Circle } from './shapes.js';
 
 /**
  * Provides onClick behavior for subclasses
  * On click event calls onClick(text)
  *
- * @param {*} onClick - callback(text)
- * @param  {...any} rest - arguments for the superclass
+ * @param {*} options.onClick - callback(text)
+ * @param {*} options.* - other arguments for the superclass
  */
 export let ClickMixin = (superclass) =>
   class extends superclass {
     constructor(options) {
       //console.log("ClickMixin", options);
       super(options);
-      try {
-        this.anchor.set(0.5);
-      } catch (error) {}
       this.interactive = true;
       this.buttonMode = true;
 
@@ -83,44 +38,19 @@ export class Text extends PIXI.Text {
       font: 'bold 32px Helvetica',
       fill: '#0077ff',
     });
+    this.anchor.set(0.5);
     this.x = options.x;
     this.y = options.y;
   }
 }
 
 /**
- * Creates a circle
- *
- * @param {*} x
- * @param {*} y
- * @param {*} radius
- * @param {*} fillcolor
- * @param {*} strokecolor
- */
-export class Circle3 extends PIXI.Graphics {
-  constructor(x, y, radius, fillcolor, strokecolor, text) {
-    super();
-    this.lineStyle(1, strokecolor);
-    this.beginFill(fillcolor, 1.0);
-    this.drawCircle(0, 0, radius);
-    this.endFill();
-    this.text = text;
-    this.x = x;
-    this.y = y;
-  }
-}
-
-/**
  * Creates a text pushbutton
  * On click event calls onClick
- *  app.stage.addChild(
- *      new TextButton2(350, 30, "five", (text) => console.log(text))
- *  );
- *
- * @param {*} onClick - callback(text)
- * @param {*} x - center.x
- * @param {*} y - center.y
- * @param {*} text - button text + identifier in callback
+ * @param {*} options.onClick - callback(text)
+ * @param {*} options.x - center.x
+ * @param {*} options.y - center.y
+ * @param {*} options.text - button text + identifier in callback
  */
 export class TextButton extends ClickMixin(Text) {
   constructor(options) {
@@ -131,23 +61,18 @@ export class TextButton extends ClickMixin(Text) {
 
 /**
  * Creates a circle pushbutton
- * On click calls onClick
+ * On click event calls onClick
  *
- * @param {*} onClick - callback()
- * @param {*} x
- * @param {*} y
- * @param {*} radius
- * @param {*} fillcolor
- * @param {*} strokecolor
- *
- * Usage example:
- *   menuApplication.stage.addChild(
- *       new CircleButton(replaceCurrentApp, 320, 30, 15, 0xffffff, 0x000000)
- *   );
+ * @param {*} options.onClick - callback()
+ * @param {*} options.x
+ * @param {*} options.y
+ * @param {*} options.radius
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
  */
-export class CircleButton extends PushbuttonMixin(Circle3) {
-  constructor(onClick, x, y, radius, fillcolor, strokecolor) {
-    //console.log("CircleButton", ...arguments);
-    super(...arguments);
+export class CircleButton extends ClickMixin(Circle) {
+  constructor(options) {
+    console.log('CircleButton', options);
+    super(options);
   }
 }

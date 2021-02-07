@@ -2,13 +2,10 @@ import * as PIXI from 'pixi.js';
 
 import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
-import {
-  HexagonGrid,
-  HexagonGroupFixed,
-  HexagonGroupFromLayout,
-} from './pixi-hexagrids.js';
+import { HexagonGrid, HexagonGroupFromLayout } from './hexagrids-and-groups.js';
 
 import { HexagonCRKeyboard } from './shapes.js';
+import { Circle, Hexagon, Square } from './shapes.js';
 
 /**
  * Creates an Application
@@ -28,6 +25,8 @@ export class AppPixi extends PIXI.Application {
     this.addButtons(options);
 
     this.updateHexagonCollections();
+
+    this.addShapeSamples();
   }
 
   addSprites(options) {
@@ -64,6 +63,18 @@ export class AppPixi extends PIXI.Application {
       text: 'v/h',
     });
     this.stage.addChild(button2);
+
+    const button3 = new CircleButton({
+      onClick: (text) => {
+        console.log('button3', text);
+      },
+      x: options.width - 50,
+      y: 150,
+      radius: 20,
+      text: 'demo',
+      fillcolor: '0xbb0000',
+    });
+    this.stage.addChild(button3);
   }
 
   addHexagonGrids(hexagonSide, options) {
@@ -94,30 +105,28 @@ export class AppPixi extends PIXI.Application {
   addMovableHexagons(hexagonSide) {
     this.verticalMovableHexagon = new HexagonCRKeyboard({
       col: 7,
-      row: 7,
+      row: 5,
       side: hexagonSide,
       vertical: true,
       strokecolor: 0xaa0000,
-      fillcolor: null,
+      fillcolor: 0xaa0000,
     });
     this.horizontalMovableHexagon = new HexagonCRKeyboard({
       col: 7,
-      row: 7,
+      row: 5,
       side: hexagonSide,
       vertical: false,
       strokecolor: 0xaa0000,
-      fillcolor: null,
+      fillcolor: 0xaa0000,
     });
   }
 
   addHexagonGroups(hexagonSide) {
-    // this.hexagonGroupVertical = new HexagonGroupFixed({
     this.hexagonGroupVertical = new HexagonGroupFromLayout({
       side: hexagonSide,
       vertical: true,
       fillcolor: 0x009900,
     });
-    // this.hexagonGroupHorizontal = new HexagonGroupFixed({
     this.hexagonGroupHorizontal = new HexagonGroupFromLayout({
       side: hexagonSide,
       vertical: false,
@@ -125,6 +134,39 @@ export class AppPixi extends PIXI.Application {
     });
   }
 
+  addShapeSamples() {
+    const circle = new Circle({
+      x: 100,
+      y: 400,
+      radius: 50,
+      fillcolor: 0x00ff00,
+      strokecolor: 0xffffff,
+    });
+    this.stage.addChild(circle);
+
+    const square = new Square({
+      x: 100,
+      y: 400,
+      side: 88,
+      fillcolor: 0x000000,
+      strokecolor: 0xffff00,
+    });
+    this.stage.addChild(square);
+
+    const hexagon = new Hexagon({
+      x: 100,
+      y: 400,
+      side: 50,
+      vertical: true,
+      fillcolor: 0x770000,
+      strokecolor: 0x99ff00,
+    });
+    this.stage.addChild(hexagon);
+  }
+
+  /**
+   * switch grid visibility and hexagon orientations (v/h)
+   */
   updateHexagonCollections() {
     if (this.gridVisible) {
       if (this.vertical) {

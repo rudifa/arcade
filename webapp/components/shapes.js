@@ -4,24 +4,26 @@ import { HexaKeyboardMixin } from './interactive-mixins.js';
 // -------
 // circles
 // -------
+
 /**
  * Creates a circle
  *
- * @param {*} x    - center.x
- * @param {*} y    - center.y
- * @param {*} radius
- * @param {*} fillcolor
- * @param {*} strokecolor
+ * @param {*} options.x - center.x
+ * @param {*} options.y - center.y
+ * @param {*} options.radius
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
  */
 export class Circle extends Graphics {
-  constructor(x, y, radius, fillcolor, strokecolor) {
+  constructor(options) {
+    console.log('Circle', options);
     super();
-    this.lineStyle(1, strokecolor);
-    this.beginFill(fillcolor, 0.9);
-    this.drawCircle(0, 0, radius); // NOT at (x,y)!
+    this.lineStyle(1, options.strokecolor);
+    this.beginFill(options.fillcolor, 0.9);
+    this.drawCircle(0, 0, options.radius); // NOT at (x,y)!
     this.endFill();
-    this.x = x;
-    this.y = y;
+    this.x = options.x;
+    this.y = options.y;
   }
 }
 
@@ -32,26 +34,28 @@ export class Circle extends Graphics {
 /**
  * Creates a square
  *
- * @param {*} x    - center.x
- * @param {*} y    - center.y
- * @param {*} side
- * @param {*} fillcolor
- * @param {*} strokecolor
+ * @param {*} options.x - center.x
+ * @param {*} options.y - center.y
+ * @param {*} options.side
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
  */
 export class Square extends Graphics {
-  constructor(x, y, side, fillcolor, strokecolor) {
+  constructor(options) {
+    console.log('Square', options);
     super();
-    this.lineStyle(1, strokecolor);
-    this.beginFill(fillcolor, 0.5);
-    let half = side / 2; // square centered on (0,0)
+    this.lineStyle(1, options.strokecolor);
+    this.beginFill(options.fillcolor, 0.5);
+    let half = options.side / 2; // square centered on (0,0)
     this.drawPolygon([-half, -half, half, -half, half, half, -half, half]);
     this.endFill();
-    this.x = x;
-    this.y = y;
+    this.x = options.x;
+    this.y = options.y;
 
     //this.alpha = 0.8; // affects both stroke and fill
   }
 }
+
 // --------
 // hexagons
 // --------
@@ -59,29 +63,30 @@ export class Square extends Graphics {
 /**
  * Creates a hexagon (vertical or horizontal)
  *
- * @param {*} x     - center.x, pixels
- * @param {*} y     - center.y, pixels
- * @param {*} side  - hexagon side (aka radius), pixels
- * @param {*} vertical - if true: vertex on top else: side on top
- * @param {*} fillcolor
- * @param {*} strokecolor
+ * @param {*} options.x     - center.x, pixels
+ * @param {*} options.y     - center.y, pixels
+ * @param {*} options.side  - hexagon side (aka radius), pixels
+ * @param {*} options.vertical - if true: vertex on top else: side on top
+ * @param {*} options.fillcolor
+ * @param {*} options.strokecolor
  */
 export class Hexagon extends Graphics {
-  constructor(x, y, side, vertical, fillcolor, strokecolor) {
-    //console.log('Hexagon', ...arguments);
+  constructor(options) {
+    // console.log('Hexagon', options);
     super();
 
-    this.vertical = vertical;
+    this.vertical = options.vertical;
 
-    let rInner = (side * Math.sqrt(3)) / 2;
+    const side = options.side;
     this.side = side; // also visible in the subclass, e.g. a mixin
+    const rInner = (side * Math.sqrt(3)) / 2;
 
-    if (strokecolor == null) {
-      strokecolor = 0x999999;
+    if (options.strokecolor == null) {
+      options.strokecolor = 0x999999;
     }
-    this.lineStyle(1, strokecolor);
-    if (fillcolor) {
-      this.beginFill(fillcolor);
+    this.lineStyle(1, options.strokecolor);
+    if (options.fillcolor) {
+      this.beginFill(options.fillcolor);
     }
 
     let coordinates = [
@@ -103,13 +108,14 @@ export class Hexagon extends Graphics {
     }
     this.drawPolygon(coordinates);
 
-    if (fillcolor) {
-      this.endFill();
-    }
-    this.x = x;
-    this.y = y;
+    this.x = options.x;
+    this.y = options.y;
   }
 }
+
+// ------------------
+// positioning mixins
+// ------------------
 
 /**
  * Adds hexgonal (col,row)->(x,y) conversion to the superclass
@@ -118,17 +124,17 @@ export class Hexagon extends Graphics {
  */
 export let HexaCR2XYMixin = (superclass) =>
   class extends superclass {
-    constructor(col, row, side, vertical, ...rest) {
-      //console.log('HexaCR2XYMixin', col, row, side, vertical, ...rest);
-      super(col, row, side, vertical, ...rest);
+    constructor(options) {
+      // console.log('HexaCR2XYMixin', options);
+      super(options);
 
       // horizontal
-      this.step_x = side * 1.5;
-      this.step_y = side * Math.sqrt(3);
+      this.step_x = options.side * 1.5;
+      this.step_y = options.side * Math.sqrt(3);
       this.odd_offset_x = 0;
       this.odd_offset_y = this.step_y / 2;
 
-      this.setDiscreteHexPosition(col, row);
+      this.setDiscreteHexPosition(options.col, options.row);
     }
 
     incrementDiscreteHexPosition(col, row) {
@@ -174,13 +180,17 @@ export let HexaCR2XYMixin = (superclass) =>
     }
   };
 
+// ---------------
+// extended shapes
+// ---------------
+
 /**
  * creates a Hexagon placed at (col, row) on a hexa grid
  */
 export class HexagonCR extends HexaCR2XYMixin(Hexagon) {
-  constructor(col, row, side, vertical, fillcolor, strokecolor) {
-    //console.log('HexagonCR', ...arguments);
-    super(...arguments);
+  constructor(options) {
+    // console.log('HexagonCR', options);
+    super(options);
   }
 }
 
@@ -191,7 +201,7 @@ export class HexagonCRKeyboard extends HexaKeyboardMixin(
   HexaCR2XYMixin(Hexagon),
 ) {
   constructor(options) {
-    console.log('HexagonCRKeyboard', options);
+    // console.log('HexagonCRKeyboard', options);
     super(options);
   }
 }
