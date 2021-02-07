@@ -4,7 +4,7 @@ import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
 import { HexagonGrid, HexagonGroupFromLayout } from './hexagrids-and-groups.js';
 
-import { HexagonCRKeyboard } from './shapes.js';
+import { HexagonCRKeyboard, CircleOnHexagonCRKeyboard } from './shapes.js';
 import { Circle, Hexagon, Square } from './shapes.js';
 
 /**
@@ -16,11 +16,14 @@ export class AppPixi extends PIXI.Application {
     super(options);
     console.log(`AppPixi › options`, options);
 
+    this.gridVisible = true;
+    this.vertical = true;
+
     this.addSprites(options);
 
     const hexagonSide = 30;
     this.addHexagonGrids(hexagonSide, options);
-    this.addMovableHexagons(hexagonSide);
+    this.addKeyboardMovableShapes(hexagonSide);
     this.addHexagonGroups(hexagonSide);
     this.addButtons(options);
 
@@ -78,8 +81,6 @@ export class AppPixi extends PIXI.Application {
   }
 
   addHexagonGrids(hexagonSide, options) {
-    this.gridVisible = true;
-    this.vertical = true;
     this.gridVert = new HexagonGrid({
       //   cols: 20,
       //   rows: 20,
@@ -102,7 +103,7 @@ export class AppPixi extends PIXI.Application {
     });
   }
 
-  addMovableHexagons(hexagonSide) {
+  addKeyboardMovableShapes(hexagonSide) {
     this.verticalMovableHexagon = new HexagonCRKeyboard({
       col: 7,
       row: 5,
@@ -115,6 +116,25 @@ export class AppPixi extends PIXI.Application {
       col: 7,
       row: 5,
       side: hexagonSide,
+      vertical: false,
+      strokecolor: 0xaa0000,
+      fillcolor: 0xaa0000,
+    });
+
+    this.verticalMovableCircle = new CircleOnHexagonCRKeyboard({
+      col: 9,
+      row: 5,
+      side: hexagonSide,
+      radius: 20,
+      vertical: true,
+      strokecolor: 0xaa0000,
+      fillcolor: 0xaa0000,
+    });
+    this.horizontalMovableCircle = new CircleOnHexagonCRKeyboard({
+      col: 9,
+      row: 5,
+      side: hexagonSide,
+      radius: 20,
       vertical: false,
       strokecolor: 0xaa0000,
       fillcolor: 0xaa0000,
@@ -190,9 +210,13 @@ export class AppPixi extends PIXI.Application {
     if (this.vertical) {
       this.stage.removeChild(this.horizontalMovableHexagon);
       this.stage.addChild(this.verticalMovableHexagon);
+      this.stage.removeChild(this.horizontalMovableCircle);
+      this.stage.addChild(this.verticalMovableCircle);
     } else {
       this.stage.removeChild(this.verticalMovableHexagon);
       this.stage.addChild(this.horizontalMovableHexagon);
+      this.stage.removeChild(this.verticalMovableCircle);
+      this.stage.addChild(this.horizontalMovableCircle);
     }
   }
 }

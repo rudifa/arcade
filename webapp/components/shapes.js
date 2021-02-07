@@ -128,6 +128,7 @@ export let HexaCR2XYMixin = (superclass) =>
       // console.log('HexaCR2XYMixin', options);
       super(options);
 
+      this.vertical = options.vertical;
       // horizontal
       this.step_x = options.side * 1.5;
       this.step_y = options.side * Math.sqrt(3);
@@ -202,6 +203,18 @@ export class HexagonCRKeyboard extends HexaKeyboardMixin(
 ) {
   constructor(options) {
     // console.log('HexagonCRKeyboard', options);
+    super(options);
+  }
+}
+
+/**
+ * Creates a Circle placed at (col, row) on a hexa grid and steered by keys HZTFVB/ASDYXC
+ */
+export class CircleOnHexagonCRKeyboard extends HexaKeyboardMixin(
+  HexaCR2XYMixin(Circle),
+) {
+  constructor(options) {
+    console.log('CircleOnHexagonCRKeyboard', options);
     super(options);
   }
 }
