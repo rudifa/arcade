@@ -15,6 +15,7 @@
   "publishConfig": {
     "access": "restricted"
   },
+  "type": "module",
   "scripts": {
     "postinstall": "npm dedupe",
     "build": "snowpack build",
