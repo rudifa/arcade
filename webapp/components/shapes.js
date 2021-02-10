@@ -1,5 +1,6 @@
 import { Graphics } from 'pixi.js';
 import { HexaKeyboardMixin } from './interactive-mixins.js';
+import { RotatingSprite } from './sprites.js';
 
 // -------
 // circles
@@ -196,15 +197,15 @@ export class HexagonCR extends HexaCR2XYMixin(Hexagon) {
 }
 
 /**
- * Creates a Hexagon placed at (col, row) on a hexa grid and steered by keys HZTFVB
+ * Creates a Hexagon placed at (col, row) on a hexa grid and steered by keys HZTFVB/ASDYXC
  */
 export class HexagonCRKeyboard extends HexaKeyboardMixin(
   HexaCR2XYMixin(Hexagon),
 ) {
-  constructor(options) {
-    // console.log('HexagonCRKeyboard', options);
-    super(options);
-  }
+  //   constructor(options) {
+  //     // console.log('HexagonCRKeyboard', options);
+  //     super(options);
+  //   }
 }
 
 /**
@@ -213,8 +214,26 @@ export class HexagonCRKeyboard extends HexaKeyboardMixin(
 export class CircleOnHexagonCRKeyboard extends HexaKeyboardMixin(
   HexaCR2XYMixin(Circle),
 ) {
-  constructor(options) {
-    console.log('CircleOnHexagonCRKeyboard', options);
-    super(options);
-  }
+  //   constructor(options) {
+  //     console.log('CircleOnHexagonCRKeyboard', options);
+  //     super(options);
+  //   }
+}
+
+/**
+ * Creates a rotating sprite placed at (col, row) on a hexa grid and steered by keys HZTFVB/ASDYXC
+ * @param {*} options.col - column in hexa grid
+ * @param {*} options.row - row in hexa grid
+ * @param {*} options.side - hexagonSide in hexa grid
+ * @param {*} options.vertical - if true: vertex on top else: side on top
+ * @param {*} options.imageUrl
+ * @param {*} options.size - pixels (optional)
+ */
+export class RotatingSpriteOnHexagonCRKeyboard extends HexaKeyboardMixin(
+  HexaCR2XYMixin(RotatingSprite),
+) {
+  //   constructor(options) {
+  //     console.log('RotatingSpriteOnHexagonCRKeyboard', options);
+  //     super(options);
+  //   }
 }

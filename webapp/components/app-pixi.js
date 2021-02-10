@@ -4,7 +4,11 @@ import { RotatingSprite } from './sprites.js';
 import { CircleButton, TextButton } from './buttons.js';
 import { HexagonGrid, HexagonGroupFromLayout } from './hexagrids-and-groups.js';
 
-import { HexagonCRKeyboard, CircleOnHexagonCRKeyboard } from './shapes.js';
+import {
+  HexagonCRKeyboard,
+  CircleOnHexagonCRKeyboard,
+  RotatingSpriteOnHexagonCRKeyboard,
+} from './shapes.js';
 import { Circle, Hexagon, Square } from './shapes.js';
 
 /**
@@ -139,6 +143,27 @@ export class AppPixi extends PIXI.Application {
       strokecolor: 0xaa0000,
       fillcolor: 0xaa0000,
     });
+
+    this.verticalMovableRotatingSprite = new RotatingSpriteOnHexagonCRKeyboard({
+      col: 11,
+      row: 5,
+      side: hexagonSide,
+      vertical: true,
+      imageURL: '/assets/open-wc-logo-180x180.png',
+      size: 40,
+    });
+    this.ticker.add(() => this.verticalMovableRotatingSprite.rotate(0.01));
+    this.horizontalMovableRotatingSprite = new RotatingSpriteOnHexagonCRKeyboard(
+      {
+        col: 11,
+        row: 5,
+        side: hexagonSide,
+        vertical: false,
+        imageURL: '/assets/open-wc-logo-180x180.png',
+        size: 40,
+      },
+    );
+    this.ticker.add(() => this.horizontalMovableRotatingSprite.rotate(0.01));
   }
 
   addHexagonGroups(hexagonSide) {
@@ -212,11 +237,17 @@ export class AppPixi extends PIXI.Application {
       this.stage.addChild(this.verticalMovableHexagon);
       this.stage.removeChild(this.horizontalMovableCircle);
       this.stage.addChild(this.verticalMovableCircle);
+      this.stage.removeChild(this.horizontalMovableRotatingSprite);
+      this.stage.addChild(this.verticalMovableRotatingSprite);
     } else {
       this.stage.removeChild(this.verticalMovableHexagon);
       this.stage.addChild(this.horizontalMovableHexagon);
       this.stage.removeChild(this.verticalMovableCircle);
       this.stage.addChild(this.horizontalMovableCircle);
+      this.stage.removeChild(this.verticalMovableRotatingSprite);
+      this.stage.addChild(this.horizontalMovableRotatingSprite);
     }
+
+    //horizontalMovableRotatingSprite
   }
 }
